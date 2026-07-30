@@ -628,8 +628,8 @@ src="https://www.facebook.com/tr?id=1269943107869825&ev=PageView&noscript=1"
       <span>↩️ Garantía 30 días</span>
     </div>
 
-    <a href="#" class="co-cta" id="checkoutCta">CONFIRMAR Y PAGAR DE FORMA SEGURA →</a>
-    <p class="co-microcopy">Vas a completar el pago en un entorno 100% seguro. Los libros llegan a tu mail apenas se confirme.</p>
+    <a href="https://pay.kiwify.com/pum0vse" class="co-cta" id="checkoutCta">CONFIRMAR Y PAGAR DE FORMA SEGURA →</a>
+    <p class="co-microcopy">Vas a completar el pago en un entorno seguro de Kiwify. Los libros llegan a tu mail apenas se confirme.</p>
   </div>
 
   <div class="top-bar wrap" style="max-width:820px;">
@@ -1095,28 +1095,8 @@ src="https://www.facebook.com/tr?id=1269943107869825&ev=PageView&noscript=1"
     document.addEventListener('keydown', function(e){
       if(e.key === 'Escape'){ closeModal(); }
     });
-    checkoutCta.addEventListener('click', async function(e){
-      e.preventDefault();
+    checkoutCta.addEventListener('click', function(){
       if(typeof fbq === 'function'){ fbq('track', 'AddPaymentInfo'); }
-
-      var originalText = checkoutCta.textContent;
-      checkoutCta.textContent = 'Procesando...';
-      checkoutCta.style.pointerEvents = 'none';
-
-      try{
-        var res = await fetch('/api/create-checkout-session', { method: 'POST' });
-        var data = await res.json();
-        if(data.url){
-          window.location.href = data.url;
-        } else {
-          throw new Error(data.error || 'No se pudo iniciar el pago');
-        }
-      }catch(err){
-        console.error(err);
-        alert('Hubo un problema al iniciar el pago. Intentá de nuevo en unos segundos.');
-        checkoutCta.textContent = originalText;
-        checkoutCta.style.pointerEvents = 'auto';
-      }
     });
   })();
 
